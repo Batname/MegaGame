@@ -9,6 +9,16 @@ AMyPlayer::AMyPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+    
+    // Create player camera
+    PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
+    
+    // Create camera boom
+    CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+    
+    // Attach camera
+    CameraBoom->SetupAttachment(RootComponent);
+    PlayerCamera->SetupAttachment(CameraBoom);
 
 }
 

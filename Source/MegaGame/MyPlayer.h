@@ -32,6 +32,13 @@ public:
     void MoveRight(float Val);
     
 protected:
+    /** Player camera */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+    UCameraComponent* PlayerCamera;
+    
+    /** Camera boom */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+    USpringArmComponent* CameraBoom;
     
 private:
     UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess=true), Category=Lifes)

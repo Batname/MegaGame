@@ -41,7 +41,8 @@ protected:
     USpringArmComponent* CameraBoom;
     
 private:
-    UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess=true), Category=Lifes)
+    /** Player Lifes */
+    UPROPERTY(BlueprintReadWrite, meta =(AllowPrivateAccess=true), Category=Lifes)
     int Lifes;
 	
 };

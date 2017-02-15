@@ -20,6 +20,8 @@ AMyPlayer::AMyPlayer()
     CameraBoom->SetupAttachment(RootComponent);
     PlayerCamera->SetupAttachment(CameraBoom);
 
+    // Set default properties
+    Lifes = 3;
 }
 
 // Called when the game starts or when spawned

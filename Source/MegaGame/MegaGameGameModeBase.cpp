@@ -4,5 +4,12 @@
 #include "MegaGameGameModeBase.h"
 
 
+AMegaGameGameModeBase::AMegaGameGameModeBase()
+{
+    // Set properties
+    LevelTime = 10.0f;
+}
 
-
+void AMegaGameGameModeBase::Tick(float DeltaSeconds)
+{
+}

@@ -31,6 +31,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = PlayerControl)
     void MoveRight(float Val);
     
+    /** Update lifes in HUD */
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = HUD)
+    void HUDUpdateLifes();
+    
 protected:
     /** Player camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))

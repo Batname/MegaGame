@@ -19,9 +19,6 @@ AMyPlayer::AMyPlayer()
     // Attach camera
     CameraBoom->SetupAttachment(RootComponent);
     PlayerCamera->SetupAttachment(CameraBoom);
-
-    // Set default properties
-    Lifes = 3;
 }
 
 // Called when the game starts or when spawned
@@ -29,6 +26,10 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+    // Set default properties
+    Lifes = 3;
+    
+    HUDUpdateLifes();
 }
 
 // Called every frame

@@ -6,8 +6,18 @@
 
 AMegaGameGameModeBase::AMegaGameGameModeBase()
 {
-    // Set properties
-    LevelTime = 10.0f;
+
+}
+
+// Called when the game starts or when spawned
+void AMegaGameGameModeBase::BeginPlay()
+{
+    Super::BeginPlay();
+    
+    // Set default properties
+    LevelTime = 10;
+    
+    HUDUpdateLevelTime();
 }
 
 void AMegaGameGameModeBase::Tick(float DeltaSeconds)

@@ -28,6 +28,13 @@ class MEGAGAME_API AMegaGameGameModeBase : public AGameModeBase
 public:
     AMegaGameGameModeBase();
     virtual void Tick(float DeltaSeconds) override;
+    
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
+    
+    /** Update lifes in HUD */
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = HUD)
+    void HUDUpdateLevelTime();
 protected:
     
 private:

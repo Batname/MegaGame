@@ -6,6 +6,7 @@
 
 AMegaGameGameModeBase::AMegaGameGameModeBase()
 {
+    PrimaryActorTick.bCanEverTick = true;
 
 }
 
@@ -15,11 +16,16 @@ void AMegaGameGameModeBase::BeginPlay()
     Super::BeginPlay();
     
     // Set default properties
-    LevelTime = 10;
+    LevelTime = StartTime = 10.0f;
     
     HUDUpdateLevelTime();
 }
 
 void AMegaGameGameModeBase::Tick(float DeltaSeconds)
 {
+    float CurrentTimeInSeconds = UGameplayStatics::GetRealTimeSeconds(GetWorld());
+    UE_LOG(LogClass, Log, TEXT(">>>> CurrentTimeInSeconds %f"), CurrentTimeInSeconds);
+    LevelTime = StartTime - CurrentTimeInSeconds;
+    UE_LOG(LogClass, Log, TEXT(">>>> LevelTime %f"), LevelTime);
+    HUDUpdateLevelTime();
 }

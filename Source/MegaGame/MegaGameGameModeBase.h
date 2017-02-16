@@ -39,6 +39,10 @@ protected:
     
 private:
     /** Init time for level */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Level", meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, meta =(AllowPrivateAccess=true), Category = "Level")
     float LevelTime;
+    
+    /** Start time */
+    UPROPERTY()
+    float StartTime;
 };

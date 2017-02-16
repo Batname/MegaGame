@@ -5,16 +5,16 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Trig.generated.h"
+#include "GoalTrigger.generated.h"
 
 UCLASS()
-class MEGAGAME_API ATrig : public AActor
+class MEGAGAME_API AGoalTrigger : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ATrig();
+	AGoalTrigger();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

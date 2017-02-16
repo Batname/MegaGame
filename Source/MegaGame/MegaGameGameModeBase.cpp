@@ -24,8 +24,6 @@ void AMegaGameGameModeBase::BeginPlay()
 void AMegaGameGameModeBase::Tick(float DeltaSeconds)
 {
     float CurrentTimeInSeconds = UGameplayStatics::GetRealTimeSeconds(GetWorld());
-    UE_LOG(LogClass, Log, TEXT(">>>> CurrentTimeInSeconds %f"), CurrentTimeInSeconds);
     LevelTime = StartTime - CurrentTimeInSeconds;
-    UE_LOG(LogClass, Log, TEXT(">>>> LevelTime %f"), LevelTime);
     HUDUpdateLevelTime();
 }

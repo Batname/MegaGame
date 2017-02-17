@@ -21,18 +21,39 @@ void AMegaGameGameModeBase::BeginPlay()
     LevelTime = StartTime = 10.0f;
     HUDUpdateLevelTime();
     
-    // Get Floar Actor
-    TArray<AActor*> FoundFloarActors;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFloor::StaticClass(), FoundFloarActors);
+    // Get Floor Actor
+    TArray<AActor*> FoundFloorActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFloor::StaticClass(), FoundFloorActors);
     
-    for(AActor* Actor : FoundFloarActors)
+    for(AActor* Actor : FoundFloorActors)
     {
-        FloarActor = Cast<AFloor>(Actor);
-        if (FloarActor != nullptr)
+        FloorActor = Cast<AFloor>(Actor);
+        if (FloorActor != nullptr)
         {
-            UE_LOG(LogClass, Warning, TEXT(">>>>> Point to AFloat is 0x%x"), FloarActor);
+            UE_LOG(LogClass, Warning, TEXT(">>>>> Point to AFloat is 0x%x"), FloorActor);
             break;
         }
+    }
+    
+    // Get float coordinates
+    if (FloorActor)
+    {
+        // Get Floor Bounds
+        FVector Orgin;
+        FVector BoundsExtent;
+        FloorActor->GetActorBounds(false, Orgin, BoundsExtent);
+        FString TempString = FString::Printf(TEXT("Actor Position is %s"), *Orgin.ToCompactString());
+        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
+        
+        // Get the current location
+        FVector ActorLocation = FloorActor->GetActorLocation();
+        TempString = FString::Printf(TEXT("Actor Location is %s"), *ActorLocation.ToCompactString());
+        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
+        
+        // Get Transform
+        FTransform Transform = FloorActor->GetTransform();
+        TempString = FString::Printf(TEXT("Transform Scale3D is %s"), *Transform.GetScale3D().ToCompactString());
+        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
     }
     
     // Get Current player

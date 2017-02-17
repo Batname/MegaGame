@@ -47,7 +47,7 @@ private:
     float StartTime;
     
     UPROPERTY()
-    class AFloor* FloarActor;
+    class AFloor* FloorActor;
     
     UPROPERTY()
     class AMyPlayer* MyPlayer;

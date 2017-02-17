@@ -51,4 +51,12 @@ private:
     
     UPROPERTY()
     class AMyPlayer* MyPlayer;
+    
+    /** Vector coords Z after Player will dies */
+    UPROPERTY()
+    float DeathZCoord;
+    
+    /** Reset level */
+    UFUNCTION()
+    void ResetLevel();
 };

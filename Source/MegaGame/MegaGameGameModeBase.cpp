@@ -10,6 +10,8 @@ AMegaGameGameModeBase::AMegaGameGameModeBase()
 {
     PrimaryActorTick.bCanEverTick = true;
 
+    // Set properties
+    DeathZCoord = -20.0f;
 }
 
 // Called when the game starts or when spawned
@@ -35,30 +37,35 @@ void AMegaGameGameModeBase::BeginPlay()
         }
     }
     
-    // Get float coordinates
-    if (FloorActor)
-    {
-        // Get Floor Bounds
-        FVector Orgin;
-        FVector BoundsExtent;
-        FloorActor->GetActorBounds(false, Orgin, BoundsExtent);
-        FString TempString = FString::Printf(TEXT("Actor Position is %s"), *Orgin.ToCompactString());
-        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
-        
-        // Get the current location
-        FVector ActorLocation = FloorActor->GetActorLocation();
-        TempString = FString::Printf(TEXT("Actor Location is %s"), *ActorLocation.ToCompactString());
-        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
-        
-        // Get Transform
-        FTransform Transform = FloorActor->GetTransform();
-        TempString = FString::Printf(TEXT("Transform Scale3D is %s"), *Transform.GetScale3D().ToCompactString());
-        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
-    }
-    
     // Get Current player
     MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
     UE_LOG(LogClass, Warning, TEXT(">>>>> Point to AMyPlayer is 0x%x"), MyPlayer);
+    
+//    FString TempString;
+//    // Get float coordinates
+//    if (FloorActor)
+//    {
+//        // Get Floor Bounds
+//        FVector Orgin;
+//        FVector BoundsExtent;
+//        FloorActor->GetActorBounds(false, Orgin, BoundsExtent);
+//        TempString = FString::Printf(TEXT("Floor Position is %s"), *Orgin.ToCompactString());
+//        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
+//        
+//        // Get the current location
+//        FVector ActorLocation = FloorActor->GetActorLocation();
+//        TempString = FString::Printf(TEXT("Floor Location is %s"), *ActorLocation.ToCompactString());
+//        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
+//    }
+}
+
+void AMegaGameGameModeBase::ResetLevel()
+{
+    if (MyPlayer)
+    {
+        MyPlayer->SetActorLocation(MyPlayer->InitLocation, false);
+        MyPlayer->UpdateLifes(MyPlayer->GetLifes() - 1);
+    }
 }
 
 void AMegaGameGameModeBase::Tick(float DeltaSeconds)
@@ -67,4 +74,18 @@ void AMegaGameGameModeBase::Tick(float DeltaSeconds)
     float CurrentTimeInSeconds = UGameplayStatics::GetRealTimeSeconds(GetWorld());
     LevelTime = StartTime - CurrentTimeInSeconds;
     HUDUpdateLevelTime();
+    
+    // Get MyPlayer coordinates
+    if (MyPlayer)
+    {
+        // Get the current location
+        FVector MyPlayerLocation = MyPlayer->GetActorLocation();
+        if (MyPlayerLocation.Z < DeathZCoord)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Player die");
+            
+            // Reset Game State
+            ResetLevel();
+        }
+    }
 }

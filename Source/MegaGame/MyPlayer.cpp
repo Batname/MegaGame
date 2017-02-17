@@ -27,8 +27,15 @@ void AMyPlayer::BeginPlay()
 	Super::BeginPlay();
 	
     // Set default properties
-    Lifes = 3;
+    UpdateLifes(3);
     
+    // Set Init Location
+    InitLocation = GetActorLocation();
+}
+
+void AMyPlayer::UpdateLifes(int Val)
+{
+    Lifes = Val;
     HUDUpdateLifes();
 }
 

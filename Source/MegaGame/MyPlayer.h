@@ -35,6 +35,9 @@ public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = HUD)
     void HUDUpdateLifes();
     
+    /** LifesGetter */
+    FORCEINLINE int GetLifes() { return Lifes; }
+    
 protected:
     /** Player camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
@@ -48,5 +51,12 @@ private:
     /** Player Lifes */
     UPROPERTY(BlueprintReadWrite, meta =(AllowPrivateAccess=true), Category=Lifes)
     int Lifes;
+    
+    /** Update ifes **/
+    UFUNCTION()
+    void UpdateLifes(int Val);
 	
+    FVector InitLocation;
+    
+    friend class AMegaGameGameModeBase;
 };

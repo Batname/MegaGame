@@ -45,4 +45,10 @@ private:
     /** Start time */
     UPROPERTY()
     float StartTime;
+    
+    UPROPERTY()
+    class AFloor* FloarActor;
+    
+    UPROPERTY()
+    class AMyPlayer* MyPlayer;
 };

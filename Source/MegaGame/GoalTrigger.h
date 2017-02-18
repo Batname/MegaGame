@@ -33,5 +33,17 @@ private:
     UFUNCTION()
     void TriggerExit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     
+    UPROPERTY()
     class UBoxComponent* Box;
+    
+    /** Get game mode */
+    UPROPERTY()
+    class AMegaGameGameModeBase* MegaGameGameModeBase;
+    
+    /** Trigger State, by default 0,
+     * increase when enter, increase when exit
+     * Waiting for 2 for move to next level
+     */
+    UPROPERTY()
+    uint8 TriggerState = 0x0;
 };

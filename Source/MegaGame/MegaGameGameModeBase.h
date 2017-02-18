@@ -11,7 +11,8 @@ enum class EPlayState
 {
     EPlaying UMETA(DisplayName="Playing"),
     EPassed UMETA(DisplayName="Passed"),
-    EDead UMETA(DisplayName="Dead"),
+    ETimeEnd UMETA(DisplayName="TimeEnd"),
+    EFell UMETA(DisplayName="Fell"),
     EWon UMETA(DisplayName="Won"),
     ELose UMETA(DisplayName="Lose")
 };
@@ -35,6 +36,16 @@ public:
     /** Update lifes in HUD */
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = HUD)
     void HUDUpdateLevelTime();
+    
+    
+    /** Return teh current player state */
+    UFUNCTION(BlueprintPure, Category = "Power")
+    EPlayState GetPlayState() const { return PlayState; }
+    
+    /** Set a new player state */
+    UFUNCTION()
+    void SetPlayState(EPlayState NewState);
+
 protected:
     /** Init time for level */
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category=Level)
@@ -60,6 +71,9 @@ private:
     /** Vector coords Z after Player will dies */
     UPROPERTY()
     float DeathZCoord;
+
+    /** Keeps track ot the current state */
+    EPlayState PlayState;
     
     /** Reset level */
     UFUNCTION()
@@ -68,4 +82,9 @@ private:
     /** Reset Timer */
     UFUNCTION()
     void ResetTimer();
+    
+    /** Handling new State after Tick */
+    UFUNCTION()
+    void HandleNewState(EPlayState NewState);
+
 };

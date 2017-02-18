@@ -19,6 +19,9 @@ void AMegaGameGameModeBase::BeginPlay()
 {
     Super::BeginPlay();
     
+    // Set PlayState to Playing By Default
+    SetPlayState(EPlayState::EPlaying);
+    
     // Update HUD time
     LevelTime = 10.0f;
 
@@ -47,27 +50,13 @@ void AMegaGameGameModeBase::BeginPlay()
     // Get Current player
     MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
     UE_LOG(LogClass, Warning, TEXT(">>>>> Point to AMyPlayer is 0x%x"), MyPlayer);
-    
-//    FString TempString;
-//    // Get float coordinates
-//    if (FloorActor)
-//    {
-//        // Get Floor Bounds
-//        FVector Orgin;
-//        FVector BoundsExtent;
-//        FloorActor->GetActorBounds(false, Orgin, BoundsExtent);
-//        TempString = FString::Printf(TEXT("Floor Position is %s"), *Orgin.ToCompactString());
-//        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
-//        
-//        // Get the current location
-//        FVector ActorLocation = FloorActor->GetActorLocation();
-//        TempString = FString::Printf(TEXT("Floor Location is %s"), *ActorLocation.ToCompactString());
-//        UE_LOG(LogClass, Warning, TEXT(">>>>> %s"), *TempString);
-//    }
 }
 
 void AMegaGameGameModeBase::ResetLevel()
 {
+    // Set PlayState to Playing By Default
+    SetPlayState(EPlayState::EPlaying);
+    
     if (MyPlayer)
     {
         MyPlayer->SetActorLocation(MyPlayer->InitLocation, false);
@@ -92,9 +81,7 @@ void AMegaGameGameModeBase::Tick(float DeltaSeconds)
     
     if (CurrentTime > EndTime)
     {
-        GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Time end, player has been die");
-        ResetTimer();
-        ResetLevel();
+        SetPlayState(EPlayState::ETimeEnd);
     }
     
     // Get MyPlayer coordinates
@@ -104,13 +91,67 @@ void AMegaGameGameModeBase::Tick(float DeltaSeconds)
         FVector MyPlayerLocation = MyPlayer->GetActorLocation();
         if (MyPlayerLocation.Z < DeathZCoord)
         {
+            SetPlayState(EPlayState::EFell);
+        }
+    }
+    
+    HUDUpdateLevelTime();
+}
+
+void AMegaGameGameModeBase::SetPlayState(EPlayState NewState)
+{
+    PlayState = NewState;
+    HandleNewState(PlayState);
+}
+
+void AMegaGameGameModeBase::HandleNewState(EPlayState NewState)
+{
+    switch(NewState)
+    {
+        case EPlayState::EPlaying:
+        {
+            // Nothing now
+        }
+        break;
+            
+        case EPlayState::EPassed:
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Level Passed");
+        }
+        break;
+            
+        case EPlayState::ETimeEnd:
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Time end, player has been die");
+            ResetTimer();
+            ResetLevel();
+
+        }
+        break;
+            
+        case EPlayState::EFell:
+        {
             GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Player die");
             
             // Reset Game State
             ResetTimer();
             ResetLevel();
+
         }
+        break;
+            
+        case EPlayState::EWon:
+        {
+            // Nothing now
+        }
+        break;
+            
+        case EPlayState::ELose:
+        {
+            // Nothing now
+        }
+        break;
+            
+        default: break;
     }
-    
-    HUDUpdateLevelTime();
 }

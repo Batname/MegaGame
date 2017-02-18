@@ -2,6 +2,7 @@
 
 #include "MegaGame.h"
 #include "GoalTrigger.h"
+#include "MegaGameGameModeBase.h"
 
 
 // Sets default values
@@ -25,6 +26,9 @@ void AGoalTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	
+    // Set properties
+    MegaGameGameModeBase = Cast<AMegaGameGameModeBase>(GetWorld()->GetAuthGameMode());
+    UE_LOG(LogClass, Warning, TEXT(">>>>> Point to MegaGameGameModeBase is 0x%x"), MegaGameGameModeBase);
 }
 
 // Called every frame
@@ -32,6 +36,14 @@ void AGoalTrigger::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+    if (TriggerState == 0x2)
+    {
+        if (MegaGameGameModeBase != nullptr)
+        {
+            MegaGameGameModeBase->SetPlayState(EPlayState::EPassed);
+        }
+        TriggerState = 0x3; // Reset After
+    }
 }
 
 void AGoalTrigger::Debug(FString Msg)
@@ -41,10 +53,10 @@ void AGoalTrigger::Debug(FString Msg)
 
 void AGoalTrigger::TriggerEnter(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-    Debug("Trigger Enter");
+    if (TriggerState < 0x2) TriggerState++;
 }
 
 void AGoalTrigger::TriggerExit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    Debug("Trigger Exit");
+    if (TriggerState < 0x2) TriggerState++;
 }

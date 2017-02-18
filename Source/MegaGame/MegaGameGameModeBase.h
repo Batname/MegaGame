@@ -64,4 +64,8 @@ private:
     /** Reset level */
     UFUNCTION()
     void ResetLevel();
+    
+    /** Reset Timer */
+    UFUNCTION()
+    void ResetTimer();
 };

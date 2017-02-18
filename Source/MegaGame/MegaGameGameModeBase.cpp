@@ -19,20 +19,15 @@ void AMegaGameGameModeBase::BeginPlay()
 {
     Super::BeginPlay();
     
-    // Get time
-    BeginTime = FPlatformTime::Seconds();
-    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %.6f"), BeginTime);
-    
-    EndTime = BeginTime + 1000;
-    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %.6f"), EndTime);
-
-
-    
-//    FDateTime MyTime;
-//    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %d"), MyTime.FromUnixTimestamp());
-    
     // Update HUD time
-    LevelTime = StartTime = 10.0f;
+    LevelTime = 10.0f;
+
+    BeginTime = FPlatformTime::Seconds();
+    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %f"), BeginTime);
+    
+    EndTime = BeginTime + LevelTime;
+    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %f"), EndTime);
+    
     HUDUpdateLevelTime();
     
     // Get Floor Actor
@@ -80,11 +75,27 @@ void AMegaGameGameModeBase::ResetLevel()
     }
 }
 
+void AMegaGameGameModeBase::ResetTimer()
+{
+    // Update HUD time
+    LevelTime = 10.0f;
+    BeginTime = FPlatformTime::Seconds();
+    
+    EndTime = BeginTime + LevelTime;
+}
+
 void AMegaGameGameModeBase::Tick(float DeltaSeconds)
 {
     // Update HUD time
-    float CurrentTimeInSeconds = UGameplayStatics::GetRealTimeSeconds(GetWorld());
-    LevelTime = StartTime - CurrentTimeInSeconds;
+    double CurrentTime = FPlatformTime::Seconds();
+    LevelTime = EndTime - CurrentTime;
+    
+    if (CurrentTime > EndTime)
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Time end, player has been die");
+        ResetTimer();
+    }
+    
     HUDUpdateLevelTime();
     
     // Get MyPlayer coordinates

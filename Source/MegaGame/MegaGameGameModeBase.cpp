@@ -94,9 +94,8 @@ void AMegaGameGameModeBase::Tick(float DeltaSeconds)
     {
         GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Time end, player has been die");
         ResetTimer();
+        ResetLevel();
     }
-    
-    HUDUpdateLevelTime();
     
     // Get MyPlayer coordinates
     if (MyPlayer)
@@ -108,7 +107,10 @@ void AMegaGameGameModeBase::Tick(float DeltaSeconds)
             GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, "Player die");
             
             // Reset Game State
+            ResetTimer();
             ResetLevel();
         }
     }
+    
+    HUDUpdateLevelTime();
 }

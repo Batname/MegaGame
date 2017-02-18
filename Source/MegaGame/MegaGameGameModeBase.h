@@ -36,15 +36,20 @@ public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = HUD)
     void HUDUpdateLevelTime();
 protected:
-    
-private:
     /** Init time for level */
-    UPROPERTY(BlueprintReadWrite, meta =(AllowPrivateAccess=true), Category = "Level")
+    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category=Level)
     float LevelTime;
     
+private:
     /** Start time */
     UPROPERTY()
     float StartTime;
+    
+    UPROPERTY()
+    double BeginTime;
+    
+    UPROPERTY()
+    double EndTime;
     
     UPROPERTY()
     class AFloor* FloorActor;

@@ -40,16 +40,16 @@ public:
     
 protected:
     /** Player camera */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     UCameraComponent* PlayerCamera;
     
     /** Camera boom */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     USpringArmComponent* CameraBoom;
     
 private:
     /** Player Lifes */
-    UPROPERTY(BlueprintReadWrite, meta =(AllowPrivateAccess=true), Category=Lifes)
+    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category=Lifes)
     int Lifes;
     
     /** Update ifes **/

@@ -19,6 +19,18 @@ void AMegaGameGameModeBase::BeginPlay()
 {
     Super::BeginPlay();
     
+    // Get time
+    BeginTime = FPlatformTime::Seconds();
+    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %.6f"), BeginTime);
+    
+    EndTime = BeginTime + 1000;
+    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %.6f"), EndTime);
+
+
+    
+//    FDateTime MyTime;
+//    UE_LOG(LogClass, Warning, TEXT(">>>>> MyTime is %d"), MyTime.FromUnixTimestamp());
+    
     // Update HUD time
     LevelTime = StartTime = 10.0f;
     HUDUpdateLevelTime();
